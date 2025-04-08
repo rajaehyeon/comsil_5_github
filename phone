@@ -1,0 +1,20 @@
+#!/bin/bash
+
+data_file="mydata"
+
+if [ $# -eq 0 ]; then
+	echo "Usage: phone searchfor [...searchfor]"
+	echo "(You didn't tell me what you want to search for.)"
+	exit 1
+fi
+
+search_pattern=$(echo "$@" | sed 's/ /|/g')
+
+matches=$(egrep -i "$search_pattern" "$data_file")
+
+if [ -z "$matches" ]; then
+	exit 1
+fi
+
+echo "$matches" | awk -f display.awk
+
